@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Header from "./components/Layout/Header";
+import Shops from "./components/Tshirts/shops";
+import Cart from "./components/Cart/Cart";
+import CartProvider from "./store/CartProvider";
+import { TshirtProvider } from "./store/TshirtContext"; 
 
 function App() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const showCartHandler = () => {
+    setIsVisible(true);
+  };
+
+  const hideCartHandler = () => {
+    setIsVisible(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartProvider>
+      <TshirtProvider>        
+        {isVisible && <Cart onClose={hideCartHandler} />}
+        <Header onShowCart={showCartHandler} />
+        <main>
+          <Shops />
+        </main>
+      </TshirtProvider>
+    </CartProvider>
   );
 }
 
 export default App;
+
